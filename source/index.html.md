@@ -3,237 +3,106 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://github.com/KaveeshBaddage/Tesseract-Web-App-Java-Backend'>Project Repository</a>
 
-includes:
-  - errors
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+`Tesseract` is an open source text recognizer (OCR) Engine, available under the Apache 2.0 license. It can be used directly, or (for programmers) using an API to extract printed text from images. It supports a wide variety of languages.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+`Tesseract OCR` is a Java web application which is implemented using Tesseract OCR Engine. It helps to convert
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+  - Images of typed text
+  - Images of handwritten text  
+  - Images of printed text into 
+  
+  a machine-encoded text. This web application uses Tesseract OCR Engine to do this conversion. 
+  
+  
+  Its Java Backend exposes two REST API endpoints to access its functionality.
 
 # Authentication
 
-> To authorize, use this code:
+<aside class="success">
+ Currently, this web application is in its initail state. So you don't need to do authentication to access its endpoints.
+</aside>
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+# Extract What You Want
 
-```python
-import kittn
+## Extract English text from an image
 
-api = kittn.authorize('meowmeowmeow')
-```
+You can attach an image as a request body parameter and sent it to the backend to extract its text in English 
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl --location --request POST 'http://localhost:8090/getEnglishText' \
+--form 'file=@<fileLocation>'
 ```
 
-```javascript
-const kittn = require('kittn');
 
-let api = kittn.authorize('meowmeowmeow');
+> The above cURL command will returns extracted text from given image in English.
+
+
+### HTTP Request
+
+`POST http://localhost:8090/getEnglishText`
+
+### Request Body Parameters
+
+Parameter |  Description
+--------- |  -----------
+file | Selected image file to extract the text
+
+### Response
+
+This HTTP request gives its response in text/plain format. 
+
+<aside class="warning">Response content may include error messages which returns from Tesseract OCR Engine with extracted text. <br/>
+Eg - Warning. Invalid resolution 0 dpi. Using 70 instead.
+Estimating resolution as 297
+</aside>
+
+
+## Extract Sinhala text from an image
+
+You can attach an image as a request body parameter and sent it to the backend to extract its text in Sinhala. 
+
+```shell
+curl --location --request POST 'http://localhost:8090/getSinhalaText' \
+--form 'file=@<fileLocation>'
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+> The above cURL command will returns extracted text from given image in Sinhala.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: meowmeowmeow`
+### HTTP Request
+
+`POST http://localhost:8090/getSinhalaText`
+
+### Request Body Parameters
+
+Parameter |  Description
+--------- |  -----------
+file | Selected image file to extract the text
+
+### Response
+
+This HTTP request gives its response in text/plain format. 
+
+<aside class="warning">Response content may include error messages which returns from Tesseract OCR Engine with extracted text. <br/>
+Eg - Warning. Invalid resolution 0 dpi. Using 70 instead.
+Estimating resolution as 297
+</aside>
+
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+That is all about...!
 </aside>
 
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 
